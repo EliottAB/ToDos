@@ -15,14 +15,17 @@ export const LoginForm = () => {
     const confirmPasswordInput = useRef<HTMLInputElement>(null)
 
     function switchForm(){
+        setEmailError("")
+        setPasswordError("")
+        setConfirmPasswordError("")
         setFormType(formType === "login" ? "signup" : "login")
     }
 
     function checkEmail(){
         if (!emailInput.current?.value.length) {
-            return("Please enter your email and retry")
+            return("Please enter your email")
         }else if(!emailInput.current.value.match(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/)){
-            return("Please enter a valid email and retry")
+            return("Please enter a valid email")
         }else{
             return("")
         }
