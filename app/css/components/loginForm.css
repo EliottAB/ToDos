@@ -16,7 +16,7 @@
     width: 18em;
     margin-bottom: 1.2em;
     padding: .5em 1em;
-    border: solid .2em lightgray;
+    border: solid .15em lightgray;
     border-radius: 100vw;
     background-color: white;
     outline: none;
@@ -32,6 +32,15 @@
     margin-bottom: .5em;
 }
 
+.error-message{
+    position: relative;
+    top: -1.2em;
+    max-height: 2em;
+    width: 19em;
+    color: red;
+    font-weight: 300;
+}
+
 .login-send, .signup-send{
     position: relative;
     top: .5em;
@@ -45,12 +54,12 @@
     cursor: pointer;
 }
 
-.login-form p{
+.switch-form{
     position: relative;
     top: 2em;
 }
 
-.login-form p button{
+.switch-form button{
     border: none;
     background-color: transparent;
     color: rgb(50, 120, 250);
