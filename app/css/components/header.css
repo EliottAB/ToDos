@@ -1,0 +1,33 @@
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 6em;
+    padding: 0 4em;
+    background-color: white;
+    box-shadow: 0 0 1em black;
+}
+
+.header .logo{
+    width: 3em;
+    height: auto;
+}
+
+.header h1{
+    font-size: 2.5em;
+    text-decoration: line-through;
+}
+
+.log-in-link{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .6em;
+    width: 6em;
+    height: 2em;
+    font-size: 1.2em;
+    font-weight: 700;
+    border-radius: 100vw;
+    border: .2em solid rgb(50, 120, 250);
+    color: rgb(50, 120, 250);
+}

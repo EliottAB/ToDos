@@ -1,0 +1,73 @@
+.modale-container{
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+}
+
+.addtodo-modale{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40vw;
+    height: 18em;
+    padding: 1em 2em;
+    border-radius: .5em;
+    background-color: white;
+}
+
+.addtodo-modale h2{
+    position: relative;
+    top: -1em;
+    font-size: 2.2em;
+}
+
+.addtodo-modale form{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+    font-size: 1.7em;
+}
+
+.addtodo-modale input{
+    width: 100%;
+    padding: .4em 1em;
+    border-radius: 100vw;
+    border: .1em solid lightgray;
+    outline: none;
+}
+
+.addtodo-modale input:focus{
+    border-color: rgb(50, 120, 250);
+}
+
+.addtodo-modale button{
+    position: relative;
+    top: 1em;
+    border-radius: 100vw;
+    cursor: pointer;
+}
+
+.canceltodo-button{
+    right: -1em;
+    border: none;
+    color: gray;
+    background-color: transparent;
+}
+
+.savetodo-button{
+    left: -1em;
+    width: 3.2em;
+    height: 1.4em;
+    border: none;
+    color: white;
+    background-color: rgb(50, 120, 250);
+}

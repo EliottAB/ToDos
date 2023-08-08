@@ -1,0 +1,54 @@
+.todo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    left: -2.5em;
+    width: 30em;
+    min-height: 6em;
+    border-radius: 1em;
+    background-color: white;
+}
+
+.todo p{
+    width: 65%;
+    margin: 1em 0;
+    font-size: 1.6em;
+}
+
+.todo button{
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.fav-button{
+    position: relative;
+    left: 1em;
+    font-size: 1.6em;
+    color: rgb(160, 160, 160);
+}
+
+.check-button{
+    position: relative;
+    right: 2em;
+    width: 1.7em;
+    height: 1.7em;
+    border: .15em solid black !important;
+}
+
+.check-button svg{
+    opacity: 0;
+}
+
+.delete-button{
+    position: absolute;
+    right: -1.5em;
+    font-size: 1.8em;
+    color: rgb(160, 160, 160);
+    transition: color .2s;
+}
+
+.delete-button:hover{
+    color: rgb(220, 70, 60);
+}

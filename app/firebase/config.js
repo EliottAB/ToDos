@@ -1,5 +1,8 @@
+/* The code you provided is for initializing and configuring Firebase in a JavaScript application. */
 // Import the functions you need from the SDKs you need
 import { initializeApp, getApps } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -12,6 +15,6 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-let firebase_app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-
-export default firebase_app;
+let app = initializeApp(firebaseConfig);
+export const database = getFirestore(app);
+export const auth = getAuth(app);

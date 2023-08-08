@@ -1,0 +1,31 @@
+.login-main{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 45em;
+    height: 30em;
+    padding: 0 4em;
+    border-radius: 2em;
+    background-color: white;
+}
+
+.login-main::before{
+    content: "";
+    position: absolute;
+    left: 23em;
+    width: .2em;
+    height: 80%;
+    background-color: lightgray;
+}
+
+.back-link{
+    display: flex;
+    flex-direction: column;
+    min-width: 5.1em;
+    font-size: 3em;
+    text-decoration: line-through;
+}

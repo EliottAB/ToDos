@@ -1,0 +1,59 @@
+.home-main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    gap: 24em;
+}
+
+.add-button{
+    position: fixed;
+    top: calc(50%);
+    transform: translate(-50%);
+    align-self: flex-start;
+    width: 2em;
+    height: 2em;
+    margin-top: 1em;
+    font-size: 1.5em;
+    border: none;
+    border-radius: 100vw;
+    color: rgb(50, 120, 250);
+    background-color: white;
+    cursor: pointer;
+}
+
+.add-button::before, .add-button::after{
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    width: .3em;
+    height: 24vh;
+    border-radius: 100vw;
+    background-color: white;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.add-button::before{
+    top: 2.5em;
+}
+
+.add-button::after{
+    bottom: 2.5em;
+}
+
+.todos, .completed-todos{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20vh 0 3em 0;
+    gap: 2em;
+}
+
+@media screen and (max-width: 1450px) {
+    .home-main{
+        gap: 12em;
+    }
+}
