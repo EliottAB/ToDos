@@ -45,6 +45,9 @@
     position: relative;
     top: .5em;
     height: 1.8em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 4em;
     font-size: 1.3em;
     background-color: rgb(50, 120, 250);
@@ -68,4 +71,24 @@
 
 .signup-send{
     width: 5em;
+}
+
+.loading{
+    width: 1em;
+    height: 1em;
+    border: white solid .1em;
+    border-top: none;
+    border-left: none;
+    border-radius: 100vw;
+    animation: loading .7s infinite linear;
+}
+
+@keyframes loading {
+    from{
+        transform: rotate(0);
+    }
+
+    to{
+        transform: rotate(360deg);
+    }
 }

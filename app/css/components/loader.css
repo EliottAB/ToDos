@@ -1,0 +1,22 @@
+.loader{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%);
+    width: 10em;
+    height: 10em;
+    border-radius: 100vw;
+    border: .4em solid white;
+    border-top: none;
+    border-left: none;
+    animation: spin .5s infinite linear;
+}
+
+@keyframes spin{
+    from{
+        transform: translate(-50%, -50%) rotate(0);
+    }
+    to{
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}

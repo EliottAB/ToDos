@@ -1,7 +1,9 @@
 'use client'
 
-import React, {FormEvent, Fragment, useRef, useState} from 'react'
+import React, {FormEvent, Fragment, useContext, useRef, useState} from 'react'
 import "../css/components/loginForm.css"
+import { UserContext } from '../context/userContext'
+import { useRouter } from 'next/navigation'
 
 
 export const LoginForm = () => {
@@ -9,16 +11,21 @@ export const LoginForm = () => {
     const [emailError, setEmailError] = useState("")
     const [passwordError, setPasswordError] = useState("")
     const [confirmPasswordError, setConfirmPasswordError] = useState("")
+    const [loadingSubmit, setLoadingSubmit] = useState(false)
+    const { signUp, logIn, createUserInDatabase } = useContext(UserContext)
+    const router = useRouter()
 
     const emailInput = useRef<HTMLInputElement>(null)
     const passwordInput = useRef<HTMLInputElement>(null)
     const confirmPasswordInput = useRef<HTMLInputElement>(null)
 
     function switchForm(){
-        setEmailError("")
-        setPasswordError("")
-        setConfirmPasswordError("")
-        setFormType(formType === "login" ? "signup" : "login")
+        if (!loadingSubmit) {
+            setEmailError("")
+            setPasswordError("")
+            setConfirmPasswordError("")
+            setFormType(formType === "login" ? "signup" : "login")
+        }
     }
 
     function checkEmail(){
@@ -34,11 +41,11 @@ export const LoginForm = () => {
     function checkPassword(){
         if (!passwordInput.current?.value.length) {
             return("Please enter a password")
-        }else if(passwordInput.current.value.length<8){
+        }else if(formType === "signup" && passwordInput.current.value.length<8){
             return("Must contains at least 8 characters")
-        }else if(!passwordInput.current.value.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\S]*$/)){
+        }else if(formType === "signup" && !passwordInput.current.value.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\S]*$/)){
             return("Must contains at least 1 maj, 1 min, 1 number")
-        }else if(passwordInput.current.value.length > 20){
+        }else if(formType === "signup" && passwordInput.current.value.length > 20){
             return("No more than 20 characters")
         }else{
             return("")
@@ -55,12 +62,55 @@ export const LoginForm = () => {
         }
     }
 
-    function handleSubmit(e: FormEvent<HTMLFormElement>){
+    async function handleSubmit(e: FormEvent<HTMLFormElement>){
         e.preventDefault()
-        setEmailError(checkEmail())
-        if (formType === "signup") {
-            setPasswordError(checkPassword())
-            setConfirmPasswordError(checkConfirmPassword())
+        if (!loadingSubmit) {
+            const getEmailError = checkEmail()
+            const getPasswordError = checkPassword()
+            const getConfirmPasswordError = checkConfirmPassword()
+            setEmailError(getEmailError)
+            setPasswordError(getPasswordError)
+            setConfirmPasswordError(getConfirmPasswordError)
+            
+            if (formType === "signup") {
+                if (getEmailError === "" && getPasswordError === "" && getConfirmPasswordError === ("")) {
+                    setLoadingSubmit(true)
+                    try {
+                        const signupResponse = await signUp(emailInput.current?.value, passwordInput.current?.value)
+                        try {
+                            await createUserInDatabase(signupResponse.user.uid)
+                            router.push("/")
+                        } catch (error) {
+                            setEmailError("Something went wrong...")
+                        }
+                    } catch (error: any) {
+                        if (error.message === "Firebase: Error (auth/email-already-in-use).") {
+                            setEmailError("Your email is already used")
+                        }else{
+                            setEmailError("Something went wrong...")
+                        }
+                    }
+                    setLoadingSubmit(false)
+                }
+            }else if (formType === "login"){
+                if (getEmailError === "" && getPasswordError === "") {
+                    setLoadingSubmit(true)
+                    try {
+                        await logIn(emailInput.current?.value, passwordInput.current?.value)
+                        router.push("/")
+
+                    } catch (error: any) {
+                        if (error.message === "Firebase: Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later. (auth/too-many-requests).") {
+                            setEmailError("You failed too many times, your account is temporaly disabled. Try again later")
+                        }else if (error.message === "Firebase: Error (auth/wrong-password)." || error.message === "Firebase: Error (auth/user-not-found).") {
+                            setEmailError("Your email or password is incorrect")
+                        }else{
+                            setEmailError("Something went wrong...")
+                        }
+                    }
+                    setLoadingSubmit(false)
+                }
+            }
         }
     }
 
@@ -78,7 +128,7 @@ export const LoginForm = () => {
             {
                 formType === "login" ?
                     <Fragment>
-                        <button type='submit' className='login-send'>Login</button>
+                        <button type='submit' className='login-send'>{loadingSubmit ? <div className='loading'></div> : "Login"}</button>
                         <p className='switch-form'>You don't have an account ? <button type='button' onClick={switchForm}>Sign Up !</button></p>
                     </Fragment>
                 :
@@ -86,7 +136,7 @@ export const LoginForm = () => {
                         <label htmlFor="confirm-password">Confirm Password</label>
                         <input ref={confirmPasswordInput} type="password" name="confirm-password" id="confirm-password" placeholder='Re-enter your Password'/>
                         <p className='error-message'>{confirmPasswordError}</p>
-                        <button type='submit' className='signup-send'>Sign Up</button>
+                        <button type='submit' className='signup-send'>{loadingSubmit ? <div className='loading'></div> : "Sign Up"}</button>
                         <p className='switch-form'>You already have an account ? <button type='button' onClick={switchForm}>Log in !</button></p>
                     </Fragment>
 
