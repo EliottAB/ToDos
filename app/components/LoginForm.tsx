@@ -12,7 +12,7 @@ export const LoginForm = () => {
     const [passwordError, setPasswordError] = useState("")
     const [confirmPasswordError, setConfirmPasswordError] = useState("")
     const [loadingSubmit, setLoadingSubmit] = useState(false)
-    const { signUp, logIn, createUserInDatabase } = useContext(UserContext)
+    const { signUp, logIn, createUserInDatabase, setUserTodos, getUserTodos, setUserId } = useContext(UserContext)
     const router = useRouter()
 
     const emailInput = useRef<HTMLInputElement>(null)
@@ -79,6 +79,7 @@ export const LoginForm = () => {
                         const signupResponse = await signUp(emailInput.current?.value, passwordInput.current?.value)
                         try {
                             await createUserInDatabase(signupResponse.user.uid)
+                            setUserId(signupResponse.user.uid)
                             router.push("/")
                         } catch (error) {
                             setEmailError("Something went wrong...")
@@ -96,9 +97,10 @@ export const LoginForm = () => {
                 if (getEmailError === "" && getPasswordError === "") {
                     setLoadingSubmit(true)
                     try {
-                        await logIn(emailInput.current?.value, passwordInput.current?.value)
+                        const loginResponse = await logIn(emailInput.current?.value, passwordInput.current?.value)
+                        setUserId(loginResponse.user.id)
+                        setUserTodos(await getUserTodos(loginResponse.user.uid))
                         router.push("/")
-
                     } catch (error: any) {
                         if (error.message === "Firebase: Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later. (auth/too-many-requests).") {
                             setEmailError("You failed too many times, your account is temporaly disabled. Try again later")

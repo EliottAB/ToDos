@@ -3,30 +3,35 @@
 import { createContext, Dispatch, ReactNode, useContext, useEffect, useState } from "react";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut} from "firebase/auth";
 import { auth, database } from "../firebase/config";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, collection, getDocs, updateDoc } from "firebase/firestore";
 import { Loader } from "../components/Loader";
 
-type TodoType = {
-    id: number,
-    title: string,
-    fav: boolean,
-    finished: boolean
+export type TodoType = {
+    title: string
+    fav: boolean
+    completed: boolean
 }
 
 type UserContextType = {
-    loggedin: boolean, 
-    setLoggedin: Dispatch<boolean>, 
-    userTodos: TodoType[],
-    setUserTodos: Dispatch<Array<TodoType>>,
-    loadingDatas: boolean,
-    setLoadingDatas: Dispatch<boolean>,
-    signUp: Function,
-    logIn: Function,
+    userId: string
+    setUserId: Dispatch<string>
+    loggedin: boolean
+    setLoggedin: Dispatch<boolean>
+    userTodos: TodoType[]
+    setUserTodos: Dispatch<Array<TodoType>>
+    loadingDatas: boolean
+    setLoadingDatas: Dispatch<boolean>
+    signUp: Function
+    logIn: Function
     logOut: Function
     createUserInDatabase: Function
+    getUserTodos: Function
+    editTodo: Function
 }
 
 export const UserContext = createContext<UserContextType>({
+    userId: "",
+    setUserId: ()=>{},
     loggedin: false, 
     setLoggedin: ()=>{}, 
     userTodos: [],
@@ -36,11 +41,14 @@ export const UserContext = createContext<UserContextType>({
     signUp: ()=>{},
     logIn: ()=>{},
     logOut: ()=>{},
-    createUserInDatabase: ()=>{}
+    createUserInDatabase: ()=>{},
+    getUserTodos: ()=>{},
+    editTodo: ()=>{}
 })
 
 export function UserContextProvider({children}: {children: ReactNode}){
 
+    const [userId, setUserId] = useState("")
     const [loggedin, setLoggedin] = useState(false)
     const [userTodos, setUserTodos] = useState<TodoType[]>([])
     const [loadingDatas, setLoadingDatas] = useState(true)
@@ -53,15 +61,37 @@ export function UserContextProvider({children}: {children: ReactNode}){
         const userRef = doc(database, "users", userId.toString())
         const userSnapshot = await getDoc(userRef)
         if (!userSnapshot.exists()) {
-            await setDoc(userRef, {})
+            await setDoc(userRef, {todos: []})
         }
     }
 
+    const getUserTodos = async (userId: string | number) => {
+        // await getDocs(collection(database, "users", userId.toString(), "todos"))
+        const userRef = doc(database, "users", userId.toString())
+        const userSnapshot =  await getDoc(userRef);
+        if (userSnapshot.data()?.todos) {
+            return userSnapshot.data()?.todos
+        }else{
+            return []
+        }
+    }
+
+    const editTodo = async (newTodos: Array<TodoType>) => {
+        const userRef = doc(database, "users", userId)
+        updateDoc(userRef, {
+            todos: newTodos
+        })
+        
+    }
+
     useEffect(()=>{
-        const unsubscribe = onAuthStateChanged(auth, (currentUser)=>{
+        const unsubscribe = onAuthStateChanged(auth, async(currentUser)=>{
             if (currentUser) {
+                setUserTodos(await getUserTodos(currentUser.uid))
+                setUserId(currentUser.uid)
                 setLoggedin(true)
             }else{
+                setUserId("")
                 setLoggedin(false)
             }
             setLoadingDatas(false)
@@ -69,21 +99,23 @@ export function UserContextProvider({children}: {children: ReactNode}){
         return unsubscribe
     }, [])
 
-    const values = {
-        loggedin, 
-        setLoggedin, 
-        userTodos,
-        setUserTodos,
-        loadingDatas,
-        setLoadingDatas,
-        signUp,
-        logIn,
-        logOut,
-        createUserInDatabase
-    }
-
     return (
-        <UserContext.Provider value={values}>
+        <UserContext.Provider value={{
+            userId,
+            setUserId,
+            loggedin, 
+            setLoggedin, 
+            userTodos,
+            setUserTodos,
+            loadingDatas,
+            setLoadingDatas,
+            signUp,
+            logIn,
+            logOut,
+            createUserInDatabase,
+            getUserTodos,
+            editTodo
+        }}>
             {!loadingDatas ? children : <Loader/>}
         </UserContext.Provider>
     )

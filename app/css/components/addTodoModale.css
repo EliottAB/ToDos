@@ -49,6 +49,10 @@
     transition: border-color .2s;
 }
 
+.addtodo-modale input.error-add{
+    border-color: red;
+}
+
 .addtodo-modale input:focus{
     border-color: rgb(50, 120, 250);
 }
@@ -78,6 +82,7 @@
 
 .close-modale{
     animation: disappear .2s forwards;
+    pointer-events: none;
 }
 
 @keyframes appear {

@@ -4,16 +4,25 @@
     align-items: center;
     position: relative;
     left: -2.5em;
-    width: 30em;
+    width: 100%;
     min-height: 6em;
     border-radius: 1em;
     background-color: white;
 }
 
+.completed-todos .todo{
+    background-color: rgb(89, 209, 89);
+}
+
 .todo p{
+    overflow-wrap: break-word;
     width: 65%;
     margin: 1em 0;
     font-size: 1.6em;
+}
+
+.completed-todos .todo p{
+    text-decoration: line-through;
 }
 
 .todo button{
@@ -29,16 +38,37 @@
     color: rgb(160, 160, 160);
 }
 
+.fav-button.activate{
+    color: rgb(245, 237, 0) !important;
+}
+
+.completed-todos .todo .fav-button{
+    color: lightgray;
+}
+
 .check-button{
     position: relative;
     right: 2em;
     width: 1.7em;
     height: 1.7em;
-    border: .15em solid black !important;
+    border-radius: 100vw;
+    border: .15em solid gray !important;
+    color: gray;
 }
 
 .check-button svg{
-    opacity: 0;
+    font-size: 1.2em;
+}
+
+.check-button:hover{
+    color: rgb(36, 146, 36);
+    border-color: rgb(36, 146, 36) !important;
+}
+
+.completed-todos .check-button{
+    color: rgb(36, 146, 36);
+    border-color: rgb(36, 146, 36) !important;
+    background-color: white;
 }
 
 .delete-button{

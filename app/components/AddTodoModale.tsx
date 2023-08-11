@@ -1,11 +1,13 @@
 'use client'
 
-import React, { Dispatch, useState } from 'react'
+import React, { Dispatch, useRef, useState } from 'react'
 import "../css/components/addTodoModale.css"
 
-export const AddTodoModale = ({setModaleOpened}: {setModaleOpened: Dispatch<boolean>}) => {
+export const AddTodoModale = ({setModaleOpened, submitAddTodo}: {setModaleOpened: Dispatch<boolean>, submitAddTodo: Function}) => {
 
     const [closeModaleClassName, setCloseModaleClassName] = useState("")
+    const [errorAddTodo, setErrorAddTodo] = useState(false)
+    const todoTextInput = useRef<HTMLInputElement>(null)
 
     window.addEventListener("keydown", (e)=>{
         e.key === "Escape" && setModaleOpened(false)
@@ -18,14 +20,29 @@ export const AddTodoModale = ({setModaleOpened}: {setModaleOpened: Dispatch<bool
         }, 200);
     }
 
+    function createTodo() {
+        if (todoTextInput.current?.value) {
+            const newTodo = {
+                title: todoTextInput.current.value,
+                fav: false,
+                completed: false
+            }
+            submitAddTodo(newTodo)
+            closeModale()
+            setErrorAddTodo(false)
+        }else{
+            setErrorAddTodo(true)
+        }
+    }
+
   return (
     <div className={'modale-container ' + closeModaleClassName}>
         <div className='addtodo-modale'>
                 <h2>Add a Todo</h2>
             <form>
-                <input type="text" placeholder="Enter a new Todo's text"/>
-                <button type='button' onClick={closeModale} className='canceltodo-button'>Cancel</button>
-                <button type='button' className='savetodo-button'>Save</button>
+                <input ref={todoTextInput} type="text" placeholder="Enter a new Todo's text" className={errorAddTodo ? "error-add" : ""}/>
+                <button type='button' onClick={()=>closeModale()} className='canceltodo-button'>Cancel</button>
+                <button type='button' onClick={()=>createTodo()} className='savetodo-button'>Save</button>
             </form>
         </div>
     </div>
