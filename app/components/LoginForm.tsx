@@ -28,7 +28,7 @@ export const LoginForm = () => {
         }
     }
 
-    function checkEmail(){
+    function checkEmail(): string{
         if (!emailInput.current?.value.length) {
             return("Please enter your email")
         }else if(!emailInput.current.value.match(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/)){
@@ -38,7 +38,7 @@ export const LoginForm = () => {
         }
     }
     
-    function checkPassword(){
+    function checkPassword(): string{
         if (!passwordInput.current?.value.length) {
             return("Please enter a password")
         }else if(formType === "signup" && passwordInput.current.value.length<8){
@@ -52,7 +52,7 @@ export const LoginForm = () => {
         }
     }
 
-    function checkConfirmPassword() {
+    function checkConfirmPassword(): string{
         if (!confirmPasswordInput.current?.value.length) {
             return("Please confirm your password")
         }else if(confirmPasswordInput.current.value != passwordInput.current?.value){

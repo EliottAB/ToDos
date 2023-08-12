@@ -1,6 +1,6 @@
 'use client'
 
-import React, { Dispatch, useRef, useState } from 'react'
+import React, { Dispatch, FormEvent, useRef, useState } from 'react'
 import "../css/components/addTodoModale.css"
 
 export const AddTodoModale = ({setModaleOpened, submitAddTodo}: {setModaleOpened: Dispatch<boolean>, submitAddTodo: Function}) => {
@@ -10,7 +10,7 @@ export const AddTodoModale = ({setModaleOpened, submitAddTodo}: {setModaleOpened
     const todoTextInput = useRef<HTMLInputElement>(null)
 
     window.addEventListener("keydown", (e)=>{
-        e.key === "Escape" && setModaleOpened(false)
+        e.key === "Escape" && closeModale()
     })
 
     function closeModale() {
@@ -20,7 +20,8 @@ export const AddTodoModale = ({setModaleOpened, submitAddTodo}: {setModaleOpened
         }, 200);
     }
 
-    function createTodo() {
+    function createTodo(e: FormEvent) {
+        e.preventDefault()
         if (todoTextInput.current?.value) {
             const newTodo = {
                 title: todoTextInput.current.value,
@@ -39,10 +40,10 @@ export const AddTodoModale = ({setModaleOpened, submitAddTodo}: {setModaleOpened
     <div className={'modale-container ' + closeModaleClassName}>
         <div className='addtodo-modale'>
                 <h2>Add a Todo</h2>
-            <form>
+            <form onSubmit={createTodo}>
                 <input ref={todoTextInput} type="text" placeholder="Enter a new Todo's text" className={errorAddTodo ? "error-add" : ""}/>
                 <button type='button' onClick={()=>closeModale()} className='canceltodo-button'>Cancel</button>
-                <button type='button' onClick={()=>createTodo()} className='savetodo-button'>Save</button>
+                <button type='submit' className='savetodo-button'>Save</button>
             </form>
         </div>
     </div>

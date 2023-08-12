@@ -3,8 +3,10 @@
 import { createContext, Dispatch, ReactNode, useContext, useEffect, useState } from "react";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut} from "firebase/auth";
 import { auth, database } from "../firebase/config";
-import { doc, setDoc, getDoc, collection, getDocs, updateDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
 import { Loader } from "../components/Loader";
+import { ErrorComponent } from "../components/ErrorComponent"
+import { usePathname } from "next/navigation";
 
 export type TodoType = {
     title: string
@@ -48,10 +50,13 @@ export const UserContext = createContext<UserContextType>({
 
 export function UserContextProvider({children}: {children: ReactNode}){
 
+    const urlPath = usePathname()
+    console.log(urlPath)
     const [userId, setUserId] = useState("")
     const [loggedin, setLoggedin] = useState(false)
     const [userTodos, setUserTodos] = useState<TodoType[]>([])
-    const [loadingDatas, setLoadingDatas] = useState(true)
+    const [loadingDatas, setLoadingDatas] = useState(urlPath === "/" ? true : false)
+    const [globalError, setGlobalError] = useState(false)
     const signUp = (email: string, password: string) => createUserWithEmailAndPassword(auth, email, password)
     const logIn = (email: string, password: string) => signInWithEmailAndPassword(auth, email, password)
     const logOut = () => signOut(auth)
@@ -65,7 +70,7 @@ export function UserContextProvider({children}: {children: ReactNode}){
         }
     }
 
-    const getUserTodos = async (userId: string | number) => {
+    const getUserTodos = async (userId: string | number): Promise<Array<TodoType>> => {
         // await getDocs(collection(database, "users", userId.toString(), "todos"))
         const userRef = doc(database, "users", userId.toString())
         const userSnapshot =  await getDoc(userRef);
@@ -77,16 +82,19 @@ export function UserContextProvider({children}: {children: ReactNode}){
     }
 
     const editTodo = async (newTodos: Array<TodoType>) => {
-        const userRef = doc(database, "users", userId)
-        updateDoc(userRef, {
-            todos: newTodos
-        })
-        
+        try {
+            const userRef = doc(database, "users", userId)
+            await updateDoc(userRef, {
+                todos: newTodos
+            })
+        } catch (error) {
+            setGlobalError(true)
+        }
     }
 
     useEffect(()=>{
         const unsubscribe = onAuthStateChanged(auth, async(currentUser)=>{
-            if (currentUser) {
+            if (currentUser && (urlPath === "/" ||urlPath === "/login")) {
                 setUserTodos(await getUserTodos(currentUser.uid))
                 setUserId(currentUser.uid)
                 setLoggedin(true)
@@ -116,7 +124,13 @@ export function UserContextProvider({children}: {children: ReactNode}){
             getUserTodos,
             editTodo
         }}>
-            {!loadingDatas ? children : <Loader/>}
+            {globalError ? 
+            <ErrorComponent message="Sorry, something went wrong..."/>
+            :
+            loadingDatas ? 
+            <Loader/>
+            :
+            children}
         </UserContext.Provider>
     )
 }
