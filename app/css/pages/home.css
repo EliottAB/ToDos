@@ -27,7 +27,7 @@
     left: 50%;
     transform: translate(-50%);
     width: .3em;
-    height: 24vh;
+    height: 24svh;
     border-radius: 100vw;
     background-color: white;
     z-index: -1;
@@ -51,7 +51,7 @@
     flex-direction: column;
     align-items: center;
     width: 30em;
-    margin: 20vh 0 3em 0;
+    margin: 20svh 0 3em 0;
     gap: 2em;
 }
 
@@ -59,7 +59,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: calc(100vh - 2.75em);
     width: 13.63em;
     text-align: center;
     font-size: 2.2em;
@@ -71,7 +70,7 @@
     display: flex;
     align-items: center;
     min-height: 5em;
-    height: calc(100vh - 2.02em);
+    height: calc(100svh - 2.02em);
     font-size: 3em;
     font-weight: 600;
     text-align: center;
@@ -139,6 +138,6 @@
 
     .ask-login{
         padding: 0 2em;
-        height: calc(100vh - 3em);
+        height: calc(100svh - 3em);
     }
 }
