@@ -82,3 +82,9 @@
 .delete-button:hover{
     color: rgb(220, 70, 60);
 }
+
+@media screen and (max-width: 1080px){
+    .todo{
+        left: -1.2em;
+    }
+}

@@ -1,4 +1,4 @@
-.header{
+.main-header{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -8,12 +8,12 @@
     box-shadow: 0 0 1em black;
 }
 
-.header .logo{
+.main-header .logo{
     width: 3em;
     height: auto;
 }
 
-.header h1{
+.main-header h1{
     font-size: 2.5em;
     text-decoration: line-through;
 }
@@ -38,4 +38,21 @@
     color: white;
     background-color: rgb(50, 120, 250);
     cursor: pointer;
+}
+
+@media screen and (max-width: 650px){
+    .main-header{
+        font-size: 1.5em;
+        padding: 0 1em;
+    }
+
+    .main-header .logo{
+        width: 2em;
+    }
+
+    .main-header h1{
+        position: absolute;
+        left: 1.7em;
+        font-size: 2em;
+    }
 }

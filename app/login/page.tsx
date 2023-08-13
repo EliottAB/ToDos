@@ -7,13 +7,15 @@ import "../css/pages/login.css"
 
 const Login = () => {
   return (
-    <main className='login-main'>
-        <Link href={"/"} className='back-link'>
-          <h1>My T⊙D⊙s</h1>
-          <FontAwesomeIcon icon={faArrowLeft}/>
-        </Link>
-        <LoginForm/>
-    </main>
+    <div className='login-container'>
+      <main className='login-main'>
+          <Link href={"/"} className='back-link'>
+            <h1>My T⊙D⊙s</h1>
+            <FontAwesomeIcon icon={faArrowLeft}/>
+          </Link>
+          <LoginForm/>
+      </main>
+    </div>
   )
 }
 

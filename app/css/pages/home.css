@@ -42,6 +42,10 @@
     bottom: 2.5em;
 }
 
+.between-lists{
+    display: none;
+}
+
 .todos, .completed-todos{
     display: flex;
     flex-direction: column;
@@ -49,16 +53,6 @@
     width: 30em;
     margin: 20vh 0 3em 0;
     gap: 2em;
-}
-
-.ask-login{
-    display: flex;
-    align-items: center;
-    height: calc(100vh - 2.02em);
-    font-size: 3em;
-    font-weight: 600;
-    text-align: center;
-    color: white;
 }
 
 .no-todo{
@@ -73,8 +67,78 @@
     color: white;
 }
 
+.ask-login{
+    display: flex;
+    align-items: center;
+    min-height: 5em;
+    height: calc(100vh - 2.02em);
+    font-size: 3em;
+    font-weight: 600;
+    text-align: center;
+    color: white;
+}
+
 @media screen and (max-width: 1450px) {
     .home-main{
         gap: 12em;
+    }
+}
+
+@media screen and (max-width: 1280px){
+    .todos, .completed-todos{
+        width: 24em;
+    }
+}
+
+@media screen and (max-width: 1080px){
+
+    .home-main{
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+    }
+    
+    .add-button{
+        position: absolute;
+        top: .7em;
+        left: 50%;
+        font-size: 2em;
+    }
+
+    .add-button::before, .add-button::after{
+        display: none;
+    }
+
+    .between-lists{
+        display: initial;
+        width: 70vw;
+        height: .5em;
+        border-radius: 100vw;
+        background-color: white;
+    }
+
+    .todos{
+        margin-top: 8em !important;
+    }
+
+    .todos, .completed-todos{
+        left: 0;
+        margin: 2em;
+        padding: 0;
+        font-size: 1.2em;
+    }
+
+    .no-todo{
+        margin: 2em 0;
+        height: fit-content;
+    }
+
+    .no-todo:first-child{
+        margin-top: 4em;
+    }
+
+    .ask-login{
+        padding: 0 2em;
+        height: calc(100vh - 3em);
     }
 }

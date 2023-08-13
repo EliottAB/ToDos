@@ -85,6 +85,17 @@
     pointer-events: none;
 }
 
+@media screen and (max-width: 650px){
+    .modale-container{
+        font-size: 1.45em;
+    }
+
+    .addtodo-modale{
+        width: 100%;
+        border-radius: 0;
+    }
+}
+
 @keyframes appear {
     from{
         opacity: 0;

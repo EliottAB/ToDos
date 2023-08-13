@@ -51,7 +51,6 @@ export const UserContext = createContext<UserContextType>({
 export function UserContextProvider({children}: {children: ReactNode}){
 
     const urlPath = usePathname()
-    console.log(urlPath)
     const [userId, setUserId] = useState("")
     const [loggedin, setLoggedin] = useState(false)
     const [userTodos, setUserTodos] = useState<TodoType[]>([])

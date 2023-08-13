@@ -45,6 +45,7 @@
     position: relative;
     top: .5em;
     height: 1.8em;
+    min-height: 1.8em;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -83,6 +84,43 @@
     animation: loading .7s infinite linear;
 }
 
+@media screen and (max-width: 920px){
+    .login-form{
+        margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .login-form{
+        justify-content: center;
+        height: calc(100vh - 10em);
+        min-height: 30em;
+        margin: 2em 0 0 0;
+        font-size: 1.3em;
+    }
+
+    .login-form h2{
+        top: 0;
+        font-size: 1.4em;
+        margin-bottom: 1.4em;
+    }
+
+    .login-form input{
+        width: 14em;
+    }
+
+    .login-form label, .error-message{
+        width: 15em;
+    }
+
+    .switch-form{
+        width: 80%;
+        text-align: center;
+        margin-bottom: 3em;
+    }
+
+}
+
 @keyframes loading {
     from{
         transform: rotate(0);
@@ -92,3 +130,4 @@
         transform: rotate(360deg);
     }
 }
+

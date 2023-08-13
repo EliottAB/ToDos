@@ -8,7 +8,7 @@ import { HeaderLogButton } from './HeaderLogButton'
 export const Header = () => {
 
   return (
-    <header className='header'>
+    <header className='main-header'>
         <Link href={"/"}><Image src={logo} alt='ToDos Logo' className='logo'/></Link>
         <h1>My T⊙D⊙s</h1>
         <HeaderLogButton/>

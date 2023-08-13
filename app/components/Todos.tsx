@@ -63,7 +63,6 @@ export const Todos = () => {
     loggedin 
     ?
     <Fragment>
-      {modaleOpened && <AddTodoModale setModaleOpened={setModaleOpened} submitAddTodo={submitAddTodo}/>}
         {todos.length !== 0 ?
         <ul className='todos'>
           {todos.map(todo =>
@@ -74,6 +73,7 @@ export const Todos = () => {
         }
 
         <button className='add-button' onClick={()=>setModaleOpened(true)}><FontAwesomeIcon icon={faPlus}/></button>
+        <div className="between-lists"></div>
         
         {completedTodos.length !== 0 ?
         <ul className='completed-todos'>
@@ -83,6 +83,7 @@ export const Todos = () => {
         :
         <p className='no-todo'>No Todo completed</p>
         }
+        {modaleOpened && <AddTodoModale setModaleOpened={setModaleOpened} submitAddTodo={submitAddTodo}/>}
     </Fragment>
     :
     <p className='ask-login'>Please Login or Signup to use the Todos</p>
