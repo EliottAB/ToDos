@@ -1,14 +1,14 @@
 'use client'
 
-import React, { useContext } from 'react'
+import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faStar, faCheck } from '@fortawesome/free-solid-svg-icons'
 import "../css/components/todo.css"
-import { UserContext } from '../context/userContext'
+import { useUserContext } from '../context/userContext'
 
 export const Todo = React.memo(({title, fav, index}: {title: string, fav: boolean, index: number}) => {
 
-  const {setUserTodos, userTodos, editTodo} = useContext(UserContext)
+  const {setUserTodos, userTodos, editTodo} = useUserContext()
 
   function addToFav(){
       const todoEdited = [...userTodos]

@@ -1,13 +1,13 @@
 'use client'
 
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faSignOut } from '@fortawesome/free-solid-svg-icons'
-import { UserContext } from '../context/userContext'
+import { useUserContext } from '../context/userContext'
 import Link from 'next/link'
 
 export const HeaderLogButton = () => {
-    const { loggedin, logOut } = useContext(UserContext)
+    const { loggedin, logOut } = useUserContext()
     const [confirmLogout, setConfirmLogout] = useState(false)
     const [logoutTimer, setLogoutTimer] = useState(0)
 

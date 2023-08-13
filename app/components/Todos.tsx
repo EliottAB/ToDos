@@ -1,11 +1,11 @@
 'use client'
 
-import React, { Dispatch, Fragment, useContext, useEffect, useState } from 'react'
+import React, { Dispatch, Fragment, useEffect, useState } from 'react'
 import { Todo } from './Todo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { AddTodoModale } from './AddTodoModale';
-import { UserContext } from '../context/userContext';
+import { useUserContext } from '../context/userContext';
 import { TodoType } from '../context/userContext';
 
 // const todos: object[] = [
@@ -23,7 +23,7 @@ import { TodoType } from '../context/userContext';
 export const Todos = () => {
   
   const [modaleOpened, setModaleOpened]: [boolean, Dispatch<boolean>] = useState(false)
-  const {loggedin, setUserTodos, userTodos, editTodo} = useContext(UserContext)
+  const {loggedin, setUserTodos, userTodos, editTodo} = useUserContext()
   const [filteredTodos, setFilteredTodos] = useState(
     [...userTodos].reverse().sort((todoA, todoB) => {
       if (todoA.fav && !todoB.fav) {

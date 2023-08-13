@@ -1,8 +1,8 @@
 'use client'
 
-import React, {FormEvent, Fragment, useContext, useRef, useState} from 'react'
+import React, {FormEvent, Fragment, useRef, useState} from 'react'
 import "../css/components/loginForm.css"
-import { UserContext } from '../context/userContext'
+import { useUserContext } from '../context/userContext'
 import { useRouter } from 'next/navigation'
 
 
@@ -12,7 +12,7 @@ export const LoginForm = () => {
     const [passwordError, setPasswordError] = useState("")
     const [confirmPasswordError, setConfirmPasswordError] = useState("")
     const [loadingSubmit, setLoadingSubmit] = useState(false)
-    const { signUp, logIn, createUserInDatabase, setUserTodos, getUserTodos, setUserId } = useContext(UserContext)
+    const { signUp, logIn, createUserInDatabase, setUserTodos, getUserTodos, setUserId } = useUserContext()
     const router = useRouter()
 
     const emailInput = useRef<HTMLInputElement>(null)
@@ -118,7 +118,7 @@ export const LoginForm = () => {
 
     return(
         
-        <form className='login-form' onSubmit={handleSubmit}>
+        <form className='login-form' onSubmit={(e)=>handleSubmit(e)}>
             <h2>{formType === "login" ? "Login" : "Sign Up"}</h2>
             <label htmlFor="email">Email</label>
             <input ref={emailInput} type="email" name="email" id="email" placeholder='Enter your Email'/>

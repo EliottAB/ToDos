@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, Dispatch, ReactNode, useContext, useEffect, useState } from "react";
+import { createContext, Dispatch, ReactNode, useEffect, useState, useContext } from "react";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut} from "firebase/auth";
 import { auth, database } from "../firebase/config";
 import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
@@ -134,4 +134,4 @@ export function UserContextProvider({children}: {children: ReactNode}){
     )
 }
 
-export const useUserContextProvider = () => useContext(UserContext)
+export const useUserContext = () => useContext(UserContext)
