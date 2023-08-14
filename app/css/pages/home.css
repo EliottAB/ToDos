@@ -60,6 +60,8 @@
     justify-content: center;
     align-items: center;
     width: 13.63em;
+    min-height: fit-content;
+    height: calc(100svh - 4em);
     text-align: center;
     font-size: 2.2em;
     font-weight: 600;
@@ -133,7 +135,7 @@
     }
 
     .no-todo:first-child{
-        margin-top: 4em;
+        margin-top: 5em;
     }
 
     .ask-login{
